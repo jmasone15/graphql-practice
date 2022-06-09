@@ -1,22 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
+import { GET_CLIENTS } from "../queries/clientQueries";
 import ClientRow from "./ClientRow";
-
-const GET_CLIENTS = gql`
-    query getClients {
-        clients {
-            id
-            name
-            email
-            phone
-        }
-    }
-`
+import Spinner from "./Spinner";
 
 export default function Clients() {
     const { loading, error, data } = useQuery(GET_CLIENTS);
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Something Went Wrong</p>
+    if (loading) return <Spinner />;
+    if (error) return <p>Something Went Wrong</p>;
 
     return (
         <>
@@ -32,7 +23,7 @@ export default function Clients() {
                     </thead>
                     <tbody>
                         {data.clients.map(client => (
-                            <ClientRow key={client.id} client={client}/>
+                            <ClientRow key={client.id} client={client} />
                         ))}
                     </tbody>
                 </table>
