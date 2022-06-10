@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.display-none {
+  display: none;
+}
+
 .navbar-brand {
   color: #df3ca6;
 }
@@ -23,6 +27,11 @@ code {
 
 .btn {
   font-size: 15px;
+  color: white;
+}
+
+.btn:hover {
+  color: black;
 }
 
 .btn-primary,
@@ -47,4 +56,8 @@ code {
 
 .icon {
   margin-right: 5px;
+}
+
+.bg-highlight {
+  background-color: rgb(228, 187, 236);
 }

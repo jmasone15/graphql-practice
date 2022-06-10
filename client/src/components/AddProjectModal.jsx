@@ -5,7 +5,7 @@ import { ADD_PROJECT } from "../mutations/projectMutations";
 import { GET_PROJECTS } from "../queries/projectQueries";
 import { GET_CLIENTS } from "../queries/clientQueries";
 
-export default function AddClientModal() {
+export default function AddProjectModal() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("new");
@@ -109,7 +109,9 @@ export default function AddClientModal() {
                                                 ))}
                                             </select>
                                         </div>
-                                        <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Submit</button>
+                                        <div className="d-flex justify-content-end">
+                                            <button type="submit" data-bs-dismiss="modal" className="btn btn-primary">Submit</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

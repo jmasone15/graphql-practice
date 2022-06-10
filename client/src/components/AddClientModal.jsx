@@ -87,7 +87,9 @@ export default function AddClientModal() {
                                         onChange={(e) => setPhone(e.target.value)}
                                     />
                                 </div>
-                                <button type="submit" data-bs-dismiss="modal" className="btn btn-secondary">Submit</button>
+                                <div className="d-flex justify-content-end">
+                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-secondary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
