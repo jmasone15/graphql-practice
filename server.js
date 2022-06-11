@@ -14,10 +14,13 @@ connectDB();
 
 app.use(cors());
 
-app.use("/graphql", graphqlHTTP({
+app.use("/graphql", graphqlHTTP(req => ({
     schema,
-    graphiql: process.env.NODE_ENV === "development"
-}));
+    graphiql: process.env.NODE_ENV === "development",
+    context: {
+        auth: req.headers.authorization || ""
+    }
+})));
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`.magenta.bold.underline);

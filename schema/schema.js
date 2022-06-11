@@ -1,3 +1,4 @@
+const User = require("../models/User");
 const Client = require("../models/Client");
 const Project = require("../models/Project");
 
@@ -10,6 +11,17 @@ const {
     GraphQLNonNull,
     GraphQLEnumType
 } = require("graphql");
+
+// User Type
+const UserType = new GraphQLObjectType({
+    name: "User",
+    fields: () => ({
+        id: { type: GraphQLID },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+        projects: { type: new GraphQLList(ProjectType) }
+    })
+});
 
 // Client Type
 const ClientType = new GraphQLObjectType({
@@ -40,9 +52,22 @@ const ProjectType = new GraphQLObjectType({
 });
 
 // Queries
-const RootQuery = new GraphQLObjectType({
-    name: "RootQueryType",
+const query = new GraphQLObjectType({
+    name: "Query",
     fields: {
+        user: {
+            type: UserType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return User.findById(args.id)
+            }
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve(parent, args) {
+                return User.find();
+            }
+        },
         client: {
             type: ClientType,
             args: { id: { type: GraphQLID } },
@@ -76,6 +101,24 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
     name: "Mutation",
     fields: {
+        // Add User
+        addUser: {
+            type: UserType,
+            args: {
+                email: { type: GraphQLNonNull(GraphQLString) },
+                password: { type: GraphQLNonNull(GraphQLString) },
+                projects: { type: new GraphQLList(GraphQLID) }
+            },
+            resolve(parent, args) {
+                const user = new User({
+                    email: args.email,
+                    password: args.password,
+                    projects: args.projects
+                });
+                
+                return user.save();
+            }
+        },
         // Add Client
         addClient: {
             type: ClientType,
@@ -209,7 +252,4 @@ const mutation = new GraphQLObjectType({
 });
 
 
-module.exports = new GraphQLSchema({
-    query: RootQuery,
-    mutation
-});
+module.exports = new GraphQLSchema({ query, mutation });
